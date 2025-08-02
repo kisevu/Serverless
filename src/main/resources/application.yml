@@ -4,15 +4,22 @@ spring:
 
   cloud:
     function:
-      definition: sendSubscribersInfo
+      definition: sendSubscribersInfo,processSubscribersInfo
 
     stream:
       function:
-        definition: sendSubscribersInfo
+        definition: sendSubscribersInfo,processSubscribersInfo
 
       bindings:
+       #producer bindings
         sendSubscribersInfo-out-0:
           destination: my-topic-new
+          content-type: application/json
+
+        #consumer bindings
+        processSubscribersInfo-in-0:
+          destination: my-topic-new
+          group: newsletter-group
           content-type: application/json
       poller:
         fixed-delay: 5000

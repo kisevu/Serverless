@@ -51,6 +51,13 @@ public class Subscribers {
     }
 
     @Bean
+    public Consumer<Subscriber> processSubscribersInfo(){
+        return subscriber -> {
+            log.info(" Received : {}", subscriber.getEmail());
+        };
+    }
+
+    @Bean
     public Consumer<String> create(){
       return subscriberService::create;
     }
