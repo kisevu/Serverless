@@ -4,17 +4,23 @@ spring:
 
   cloud:
     function:
-      definition: sendSubscribersInfo,processSubscribersInfo
+      definition: sendSubscribersInfo;processSubscribersInfo;sendSubscriberStatus
 
     stream:
       function:
         definition: sendSubscribersInfo,processSubscribersInfo
 
       bindings:
+
        #producer bindings
         sendSubscribersInfo-out-0:
           destination: my-topic-new
           content-type: application/json
+
+       #producer bindings
+        sendSubscriberStatus-out-0:
+          destination: my-topic-new1
+          content-type: text/plain
 
         #consumer bindings
         processSubscribersInfo-in-0:

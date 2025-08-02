@@ -5,8 +5,15 @@ import com.ameda.kevin.news_letter.service.SubscriberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -49,6 +56,27 @@ public class Subscribers {
             return subscriber;
         };
     }
+
+       /*
+       * simulate the multiple topics scenario
+       * */
+        @Bean
+        public Supplier<Message<String>>  sendSubscriberStatus(){
+            Random random = new Random();
+            return () -> {
+               String status = random.nextBoolean() ? "subscription pending approval!"
+                       : "subscription approved!";
+               log.info(" Status : {}", status);
+                return MessageBuilder.withPayload(status)
+                        .setHeader(KafkaHeaders.KEY,status.getBytes())
+                        .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN)
+                        .build();
+            };
+        }
+
+    /*
+    * Below workings simulate the consumer scenario
+    * */
 
     @Bean
     public Consumer<Subscriber> processSubscribersInfo(){
