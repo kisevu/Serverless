@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: News-letter
+
+  cloud:
+    function:
+      definition: sendSubscribersInfo
+
+    stream:
+      function:
+        definition: sendSubscribersInfo
+
+      bindings:
+        sendSubscribersInfo-out-0:
+          destination: my-topic-new
+          content-type: application/json
+      poller:
+        fixed-delay: 5000
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+
