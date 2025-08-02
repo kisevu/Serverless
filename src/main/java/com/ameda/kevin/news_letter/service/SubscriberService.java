@@ -14,9 +14,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class SubscriberService {
 
-    private List<Subscriber> subscribers = new ArrayList<>();
+    private final List<Subscriber> subscribers = new ArrayList<>();
 
-    private AtomicInteger id = new AtomicInteger(0);
+    private final AtomicInteger id = new AtomicInteger(0);
 
     public List<Subscriber> findAll(){
         return subscribers;
